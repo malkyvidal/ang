@@ -8,8 +8,16 @@
 
     var MainController = function($scope,$http){
        
+        
+        var onRepos = function(response){
+            $scope.repos = response.data;
+
+        }
+
         var onUserComplete = function(response){
             $scope.user = response.data;
+            $http.get($scope.user.repos_url)
+                 .then(onRepos,onError);
 
         };
 
@@ -17,8 +25,21 @@
             $scope.error = "no se pudieron obtener los datos";
 
         };
-        $http.get("https://api.github.com/users/robconery")
-             .then(onUserComplete,onError);
+        
+
+        $scope.search = function(username){
+            
+            /*$http.get("https://api.github.com/users/"+$scope.username)
+                    .then(onUserComplete,onError); 
+                    usar esto si no quiero recibir el parametro desde la vista
+                    */
+             $http.get("https://api.github.com/users/"+username)
+                    .then(onUserComplete,onError);
+
+        }
+        $scope.countdown = 5;
+        $scope.username = "angular";
+        $scope.repoSortOrder ="+name";
     }
 
 

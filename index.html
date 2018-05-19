@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="js/angular.js" ></script>
     <script src="app/app.js" > </script>
+    
     <title>Document</title>
 </head>
 <body ng-app="gitHubViewer">
@@ -15,9 +16,16 @@
         <div>
             {{error}}
         </div>
+        <div>
+            {{username}}
+        </div>
         <form name="searchUser">
             <input type="search" placeholder="usuario a buscar" ng-model="username" />
-            <input type="submit" value="search" />
+            <input type="submit" ng-click="search(username)" value="search" />
+            <!--la funcion search recibe el modelo como parametro-->
+            <!--<input type="submit" ng-click="search()" value="search" />-->
+            
+            <!--esto puede evitarse usando $scope.username dentro de la funcion search-->
 
         </form>
             
@@ -28,6 +36,31 @@
         <div>
             <img ng-src="{{user.avatar_url}}" title="{{user.name}}" />
         </div>
+
+        
+        order: 
+        <select ng-model="repoSortOrder">
+            <option value="+name">name</option>
+            <option value="+language">languaje</option>
+            
+        </select>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>name</th>
+                    <th>stars</th>
+                    <th>language</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="repo in repos | orderBy: repoSortOrder">
+                    <td>{{repo.name}}</td>
+                    <td>{{repo.stargazers_count | number:1}}</td>
+                    <td>{{repo.language}}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </body>
 </html>

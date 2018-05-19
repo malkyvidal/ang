@@ -1,0 +1,3 @@
+function ejecuta(f){
+    f();
+}
